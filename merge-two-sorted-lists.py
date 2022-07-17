@@ -12,8 +12,8 @@ class Solution:
         merged_list = ListNode()
         current = merged_list
 
-        while (not list1 is None) or (not list2 is None):
-            if (not list1 is None) and (not list2 is None):
+        while list1 or list2:
+            if list1 and list2:
                 if list1.val <= list2.val:
                     current.next = ListNode(list1.val)
                     list1 = list1.next
@@ -21,11 +21,11 @@ class Solution:
                     current.next = ListNode(list2.val)
                     list2 = list2.next
 
-            elif not list1 is None:
+            elif list1:
                 current.next = ListNode(list1.val)
                 list1 = list1.next
 
-            elif not list2 is None:
+            elif list2:
                 current.next = ListNode(list2.val)
                 list2 = list2.next
 
