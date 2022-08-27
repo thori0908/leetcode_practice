@@ -23,7 +23,7 @@ class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
         frequencyMap = {}
         for word in words:
-            if frequencyMap.get(word) != None:
+            if frequencyMap.get(word) != None: # 0だとfalseになるから注意
                 frequencyMap[word] += 1
             else:
                 frequencyMap[word] = 0
