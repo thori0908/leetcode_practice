@@ -1,20 +1,23 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        result = 0
-        letter_counters = [0] * 26
-        left = 0
-        for right, right_letter in enumerate(s):
-            window = right-left+1 # 文字数
-            letter_counters[self.getIndexOf(right_letter)] += 1
-            # counters of window_s
-            if window <= max(letter_counters) + k:
-                if result <= window:
-                    result = window
+        # [a=>0,b=>0,c=>0,...]
+        counters = [0] * 26
+        head = 0
+        max_length = 0
+        for tail, tail_letter in enumerate(s):
+            # tailとheadが同じ位置だと、文字数は1なので注意
+            window_size = tail - head + 1
+            tail_letter_index = ord(tail_letter) - ord('A')
+            counters[tail_letter_index] += 1
+
+            if window_size - max(counters) <= k:
+                if window_size > max_length:
+                   max_length = window_size
             else:
-                letter_counters[self.getIndexOf(s[left])] -= 1
-                left += 1
+                head_letter = s[head]
+                head_letter_index = ord(head_letter) - ord('A')
+                counters[head_letter_index] -= 1
+                head += 1
+        
 
-        return result
-
-    def getIndexOf(self, letter: str) -> int:
-        return ord(letter) - ord('A')
+        return max_length
