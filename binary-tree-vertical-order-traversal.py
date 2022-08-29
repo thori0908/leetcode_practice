@@ -9,29 +9,22 @@ class TreeNode:
 
 class Solution:
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        dict = {}
-        x = 0
-       
+        orders_map = {}
         queue = []
-        queue.append((root, 0))
+        if root:
+            queue.append((root, 0))
 
-        while len(queue) > 0:
+        while queue:
             (node, x) = queue.pop(0)
-            if node is not None:
-                if x in dict:
-                    dict[x].append(node.val) # 注意
-                else:
-                    dict[x] = [node.val]
+            if orders_map.get(x):
+                # dictのlistに要素を追加するとき、こうする
+                orders_map[x].append(node.val)
+            else:
+                orders_map[x] = [node.val]
+
+            if node.left:
                 queue.append((node.left, x-1))
+            if node.right:
                 queue.append((node.right, x+1))
 
-        # OrderedDictでdictをsortして、valuesのlistをつくっている
-        return list(collections.OrderedDict(sorted(dict.items())).values())
-
-
-        # rootの座標を(0,0)とする
-        # left -> parentのxを-1
-        # right -> parentのxを1
-        # next node -> parentのdepth -1
-        # sort nodes x ASC and depth DESC
-        # どうやって探索する?
+        return [orders_map[key] for key in sorted(orders_map.keys())]
