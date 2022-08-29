@@ -7,21 +7,14 @@ class Node:
 
 class Solution:
     def preorder(self, root: 'Node') -> List[int]:
-        orders = []
-        stack = []
-        parent = root
+        result = []
+        queue = []
+        queue.append(root)
+        while queue:
+            current_node = queue.pop(0)
+            result.append(current_node.val)
+            if current_node.children:
+                queue = current_node.children.extend(queue)
 
-        while parent:
-            orders.append(parent.val)
-            stack.extend(parent.children[::-1]) # [::-1]でlistが逆になる？
+        return result
 
-            if len(stack) == 0:
-                parent = None
-            else:
-                parent = stack.pop()
-
-        return orders
-
-        # children 1,3,2,4
-        # parent children.pop(0)
-        # parent.children + oldchildren
